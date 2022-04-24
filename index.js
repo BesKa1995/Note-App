@@ -30,6 +30,7 @@ function addNewNote(text = '') {
   main.textContent = text
 
   editBtn.addEventListener('click', () => {
+    textArea.style.boxShadow = 'inset 2px 4px 5px rgba(0,0,0,.2)'
     textArea.classList.toggle('hidden')
     main.classList.toggle('hidden')
   })
