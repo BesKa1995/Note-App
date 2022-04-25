@@ -1,13 +1,18 @@
 const addBtn = document.getElementById('add')
+//retriving the notes text 
+const notes = JSON.parse(localStorage.getItem('notes'))
 
 
+// if the variable notes is not empty then created a note element in the DOM for each note text 
+if (notes) {
+  notes.forEach(note => addNewNote(note))
+}
 addBtn.addEventListener('click', (e) => {
 
   e.stopPropagation()
-  
-  addNewNote('Hello Wrodl!')
-})
 
+  addNewNote()
+})
 
 function addNewNote(text = '') {
   const note = document.createElement('div')
@@ -43,16 +48,29 @@ function addNewNote(text = '') {
   textArea.addEventListener('input', (e) => {
     const { value } = e.target
     main.innerHTML = value
+    updateLS()
   })
   //switching the view to the main content of the note
   document.body.addEventListener('click', (e) => {
     textArea.classList.add('hidden')
     main.classList.remove('hidden')
+
   })
-  deleteBtn.addEventListener('click', () => note.remove())
+  deleteBtn.addEventListener('click', () => {
+    note.remove()
+    updateLS()
+  })
 
   document.body.appendChild(note)
+
+
 }
 
 
-
+//each note text is added to local Storage To fetch them when you reload the browser 
+function updateLS() {
+  const notesText = document.querySelectorAll('textarea')
+  const notes = []
+  notesText.forEach(note => notes.push(note.value))
+  localStorage.setItem('notes', JSON.stringify(notes))
+}
